@@ -12,11 +12,11 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
-apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+// apply plugin: 'checkstyle'
+// apply plugin: 'findbugs'
+// apply plugin: 'pmd'
 
-
+/*
 checkstyle {
     configFile = new File(rootDir, "checkstyle.xml")
 }
@@ -27,7 +27,7 @@ findbugsMain {
         html.enabled = true
     }
 }
-
+*/
 jar {
     baseName = 'ner-service'
     version =  '0.1.0'
