@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/libs-release" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.10.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+
+checkstyle {
+    configFile = new File(rootDir, "checkstyle.xml")
+}
+
+findbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+jar {
+    baseName = 'ner-service'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release" }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("edu.stanford.nlp:stanford-corenlp:3.4.1")
+    compile("edu.stanford.nlp:stanford-corenlp:3.4.1:models")
+    compile("org.apache.commons:commons-lang3:3.3.2")
+    compile("org.webjars:bootstrap:3.0.3")
+    compile("org.webjars:jquery:2.0.3-1")
+    testCompile("junit:junit")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
