@@ -41,8 +41,9 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-starter-web")
     compile("edu.stanford.nlp:stanford-corenlp:3.4.1")
     compile("edu.stanford.nlp:stanford-corenlp:3.4.1:models")
     compile("org.apache.commons:commons-lang3:3.3.2")

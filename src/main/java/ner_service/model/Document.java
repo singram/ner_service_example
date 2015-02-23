@@ -10,12 +10,19 @@ public class Document {
 	public String text;
 	public HashMap<String, HashSet<String>> entities;
 	
+	public Document() {
+	}
+	
 	public Document(String text) {
 		this.text = text;
 	}
 	
 	public String getText() {
 		return this.text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 	public void setEntities(HashMap<String, HashSet<String>> entities) {

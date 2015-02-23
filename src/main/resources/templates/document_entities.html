@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handing Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Document Text</h1>
+	<pre th:text="${document.text}" />
+	<h1>Entities recognized</h1>
+	<table>
+  <thead>
+    <tr>
+      <th>Entity</th>
+      <th>Categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="entity : ${document.entities}">
+      <td th:text="${entity.key}">Some word</td>
+      <td th:text="${entity.value}">[Something]</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
