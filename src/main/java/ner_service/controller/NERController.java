@@ -1,7 +1,7 @@
 package ner_service.controller;
 
 import ner_service.model.Document;
-import ner_service.service.StanfordNlpNerService;
+import ner_service.service.*;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,8 @@ public class NERController {
 	private Logger log = Logger.getLogger(NERController.class);
 
 	@Autowired
-	private StanfordNlpNerService nerService;
+//	private StanfordNlpNer7ClassService nerService;
+	private RegExNerService nerService;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String documentSumbissionForm(Model model) {
