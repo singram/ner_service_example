@@ -8,6 +8,12 @@
 	<h1>Document to de-identify</h1>
     <form action="#" th:action="@{/entities}" th:object="${document}" method="post">
     	<p><textarea th:field="*{text}" ></textarea></p>
+    	<ul>
+    		<li th:each="service : ${services}">
+				<input type="radio" th:field="*{serviceName}" th:value="${service}" />
+				<label th:for="${#ids.prev('serviceName')}" th:text="${service}">Some service</label>
+			</li>
+		</ul>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>
 </body>

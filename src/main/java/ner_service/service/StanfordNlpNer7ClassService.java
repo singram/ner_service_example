@@ -11,4 +11,8 @@ public class StanfordNlpNer7ClassService extends StanfordNlpNerService {
 		super(serializedClassifier);
 	}
 
+	public String toString() {
+		return "Stanford NLP 7x MUC classifier";
+	}
+
 }

@@ -11,4 +11,8 @@ public class StanfordNlpNer4ClassService extends StanfordNlpNerService {
 		super(serializedClassifier);
 	}
 
+	public String toString() {
+		return "Stanford NLP 4x CONLL classifier";
+	}
+
 }

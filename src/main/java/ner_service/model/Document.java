@@ -9,6 +9,7 @@ public class Document {
 
 	public String text;
 	public HashMap<String, HashSet<String>> entities;
+	public String serviceName;
 	
 	public Document() {
 	}
@@ -23,6 +24,14 @@ public class Document {
 	
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	public void setServiceName(String name) {
+		this.serviceName = name;
+	}
+	
+	public String getServiceName() {
+		return this.serviceName;
 	}
 	
 	public void setEntities(HashMap<String, HashSet<String>> entities) {

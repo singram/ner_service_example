@@ -51,4 +51,9 @@ public class RegExNerService implements NerService {
 		}
 		return entities;
 	}
+	
+	public String toString() {
+		return "RegEx";
+	}
+	  
 }
