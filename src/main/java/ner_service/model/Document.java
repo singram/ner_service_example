@@ -20,9 +20,17 @@ public class Document {
 	}
 
 	public String getText() {
-		return this.text;
+		return cleanText();
 	}
 
+	private String cleanText() {
+		String text = null;
+		if (this.text != null) {
+			text = this.text.replaceAll("bmk", "");
+		}
+		return text;
+	}
+	
 	public void setText(String text) {
 		this.text = text;
 	}
