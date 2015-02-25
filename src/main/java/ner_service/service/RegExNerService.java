@@ -14,49 +14,35 @@ public class RegExNerService implements NerService {
 
 	private static final Map<Pattern, String> regExRules;
 
-	private static final int flags = Pattern.CASE_INSENSITIVE; // |
-																// Pattern.MULTILINE;
+	private static final int flags = Pattern.CASE_INSENSITIVE;
 
 	// http://www.regexplanet.com/advanced/java/index.html
 	// http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
+	private static String rules[][] = {
+			{ "DOB", "DOB:\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})" },
+			{ "AGE", "AGE:\\s+(\\d{1,2})\\W" },
+			{ "AGE", "(\\d{1,2}) years? old" },
+			{ "AGE", "(\\d{1,2})-years?-old" },
+			{ "NAME", "Patient(?: name): +(\\w+, +\\w+(?: +\\w)?)" },
+			{ "NAME", "Author:\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)" },
+			{ "NAME", "by ?:? ?(\\w+, +\\w+(?:\\s+\\w)?)\\W" },
+			{ "NAME", "by ?:? ?(\\w+(?: \\w\\.)? \\w+)," },
+			{ "NAME", "\\W(Dr\\.\\s+\\w+)\\W" },
+			{ "NAME", "Completed by\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)\\W" },
+			{ "DATE", "\\Won\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})\\W" },
+			{ "DATE", "\\W(\\d{1,2}/\\d{1,2}/\\d{4})\\W" },
+			{ "IDENTIFIER", "\\W(\\d{6,})\\W" },
+			{ "PHONE", "(\\d{3}-\\d{3}-\\d{4})" },
+			{
+					"RELATION",
+					"\\W(father|mother|son|daughter|cousin|nephew|girlfriend|boyfriend|spouce|wife|husband|brother|brothers|sister|sisters)\\W" },
+			{ "LOCATION", "Pharmacy Name & Phone: (.*)$" } };
+
 	static {
 		regExRules = new HashMap<Pattern, String>();
-		regExRules.put(
-				Pattern.compile("DOB:\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})", flags),
-				"DOB");
-		regExRules.put(Pattern.compile("AGE:\\s+(\\d{1,2})\\W", flags), "AGE");
-		regExRules.put(Pattern.compile("(\\d{1,2}) years? old", flags), "AGE");
-		regExRules.put(Pattern.compile("(\\d{1,2})-years?-old", flags), "AGE");
-		regExRules.put(Pattern.compile(
-				"Patient(?: name): +(\\w+, +\\w+(?: +\\w)?)", flags), "NAME");
-		regExRules.put(Pattern.compile(
-				"Author:\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)", flags), "NAME");
-		regExRules.put(
-				Pattern.compile("by ?:? ?(\\w+, +\\w+(?:\\s+\\w)?)\\W", flags),
-				"NAME");
-		regExRules.put(
-				Pattern.compile("by ?:? ?(\\w+(?: \\w\\.)? \\w+),", flags),
-				"NAME");
-
-		regExRules.put(Pattern.compile(
-				"\\Won\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})\\W", flags), "DATE");
-		regExRules.put(
-				Pattern.compile("\\W(\\d{1,2}/\\d{1,2}/\\d{4})\\W", flags),
-				"DATE");
-		regExRules.put(Pattern.compile("\\W(\\d{6,})\\W", flags), "IDENTIFIER");
-		regExRules.put(Pattern.compile("(\\d{3}-\\d{3}-\\d{4})", flags),
-				"PHONE");
-		regExRules
-				.put(Pattern
-						.compile(
-								"\\W(father|mother|son|daughter|cousin|nephew|girlfriend|boyfriend|spouce|wife|husband|brother|brothers|sister|sisters)\\W",
-								flags), "RELATION");
-		regExRules.put(Pattern.compile("Pharmacy Name & Phone: (.*)$", flags),
-				"LOCATION");
-		regExRules.put(Pattern.compile("\\W(Dr\\.\\s+\\w+)\\W", flags), "NAME");
-		regExRules.put(Pattern.compile(
-				"Completed by\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)\\W", flags),
-				"NAME");
+		for (String[] rule : rules) {
+			regExRules.put(Pattern.compile(rule[1], flags), rule[0]);
+		}
 	}
 
 	public HashMap<String, HashSet<String>> getEntitiesFor(String text) {
@@ -112,11 +98,13 @@ public class RegExNerService implements NerService {
 
 	private String deIdentifyName(String text, String name) {
 		String replacement;
-		for(String namePart : StringUtils.split(name)) {
-			namePart = StringUtils.remove(namePart, ",.");
+		for (String namePart : StringUtils.split(name)) {
+			namePart = StringUtils.remove(namePart, ",");
+			namePart = StringUtils.remove(namePart, ".");
 			if (namePart.length() > 1) {
 				replacement = StringUtils.repeat('X', namePart.length());
-				text = StringUtils.replace(text, namePart, replacement);
+				// Case insensitive replacement with forcing word boundaries
+				text = text.replaceAll("(?i)\\b"+namePart+"\\b", replacement);
 			}
 		}
 		return text;
