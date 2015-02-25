@@ -7,44 +7,51 @@ import ner_service.service.NerService;
 
 public class Document {
 
-	public String text;
-	public HashMap<String, HashSet<String>> entities;
-	public String serviceName;
-	
+	private String text;
+	private HashMap<String, HashSet<String>> entities;
+	private String serviceName;
+	private NerService service;
+
 	public Document() {
 	}
-	
+
 	public Document(String text) {
 		this.text = text;
 	}
-	
+
 	public String getText() {
 		return this.text;
 	}
-	
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	public void setServiceName(String name) {
 		this.serviceName = name;
 	}
-	
+
 	public String getServiceName() {
 		return this.serviceName;
 	}
-	
-	public void setEntities(HashMap<String, HashSet<String>> entities) {
-		this.entities = entities;
+
+	public void setService(NerService service) {
+		this.service = service;
 	}
 
-	public void setEntities(NerService service) {
-	    this.setEntities(service.getEntitiesFor(this.getText()));
+	public NerService getService() {
+		return this.service;
 	}
-	
+
+	public String getDeIdentifiedText() {
+		return getService().deIdentify(this.getText());
+	}
+
 	public HashMap<String, HashSet<String>> getEntities() {
+		if (this.entities == null) {
+			this.entities = getService().getEntitiesFor(this.getText());
+		}
 		return this.entities;
 	}
-	
 
 }

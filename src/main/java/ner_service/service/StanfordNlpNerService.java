@@ -47,4 +47,9 @@ public abstract class StanfordNlpNerService implements NerService {
 		}
 		return entities;
 	}
+
+	public String deIdentify(String text) {
+		return text;
+	}
+
 }

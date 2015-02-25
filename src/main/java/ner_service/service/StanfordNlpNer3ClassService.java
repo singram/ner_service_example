@@ -10,10 +10,9 @@ public class StanfordNlpNer3ClassService extends StanfordNlpNerService {
 	public StanfordNlpNer3ClassService() {
 		super(serializedClassifier);
 	}
-	
+
 	public String toString() {
 		return "Stanford NLP 3x classifier";
 	}
-
 
 }
