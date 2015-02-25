@@ -14,7 +14,7 @@ public class RegExNerService implements NerService {
 
 	private static final Map<Pattern, String> regExRules;
 
-	private static final int flags = Pattern.CASE_INSENSITIVE;
+	private static final int defaultFlags = Pattern.CASE_INSENSITIVE;
 
 	// http://www.regexplanet.com/advanced/java/index.html
 	// http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
@@ -27,6 +27,7 @@ public class RegExNerService implements NerService {
 			{ "NAME", "Author:\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)" },
 			{ "NAME", "by ?:? ?(\\w+, +\\w+(?:\\s+\\w)?)\\W" },
 			{ "NAME", "by ?:? ?(\\w+(?: \\w\\.)? \\w+)," },
+			{ "NAME", "(\\w+(?: \\w\\.)? \\w+)," },
 			{ "NAME", "\\W(Dr\\.\\s+\\w+)\\W" },
 			{ "NAME", "Completed by\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)\\W" },
 			{ "DATE", "\\Won\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})\\W" },
@@ -41,7 +42,7 @@ public class RegExNerService implements NerService {
 	static {
 		regExRules = new HashMap<Pattern, String>();
 		for (String[] rule : rules) {
-			regExRules.put(Pattern.compile(rule[1], flags), rule[0]);
+			regExRules.put(Pattern.compile(rule[1], defaultFlags), rule[0]);
 		}
 	}
 
