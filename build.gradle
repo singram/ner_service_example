@@ -60,6 +60,7 @@ if( !subdir.exists() ) {
 
 def fi = [ "" ]
 
+// http://opennlp.sourceforge.net/models-1.5/
 def f = new File("opennlp_models","en-ner-person.bin")
 if (!f.exists()) {
 	println("Downloading OpenNLP NER Person model")

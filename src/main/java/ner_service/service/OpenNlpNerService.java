@@ -22,6 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+// https://opennlp.apache.org/documentation/1.5.3/manual/opennlp.html#tools.namefind.recognition.api
+
 @Service
 public class OpenNlpNerService implements NerService {
 
