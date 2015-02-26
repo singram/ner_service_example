@@ -10,12 +10,16 @@ A simple web service to exercise the qualities & characteristics of various NER 
 # Installation instructions
 
 1. clone repository
+
   ```
 git@github.com:singram/ner_service_example.git
 cd ner_service_example
   ```
+
 2. Start webservice
+
  All dependancies will be automatically downloaded via the gradle tool.
+
  ```
 .\gradlew clean bootRun
  ```
