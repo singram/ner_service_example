@@ -1,18 +1,39 @@
 package ner_service.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import ner_service.service.NerService;
+import ner_service.service.StringToNerService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+//http://stackoverflow.com/questions/19896870/why-is-my-spring-autowired-field-null
+@Component
 public class Document {
 
+	@Autowired
+	private Collection<NerService> nerServices;
+	
+	@Autowired
+	@Qualifier("openNlpNerService")
+	private NerService defaultService;
+	
+	@Autowired
+	StringToNerService stringToNerService;
+	
 	private String text;
 	private HashMap<String, HashSet<String>> entities;
-	private String serviceName;
 	private NerService service;
 
 	public Document() {
+	}
+
+	public Document(NerService service) {
+		this.service = service;
 	}
 
 	public Document(String text) {
@@ -35,20 +56,23 @@ public class Document {
 		this.text = text;
 	}
 
-	public void setServiceName(String name) {
-		this.serviceName = name;
-	}
-
-	public String getServiceName() {
-		return this.serviceName;
-	}
-
 	public void setService(NerService service) {
 		this.service = service;
 	}
 
+	public void setService(String name) {
+		setService(stringToNerService.convert(name));
+	}
+	
 	public NerService getService() {
+		if (this.service == null) {
+			setService(defaultService);
+		}
 		return this.service;
+	}
+
+	public Collection<NerService> getServices() {
+		return this.nerServices;
 	}
 
 	public String getDeIdentifiedText() {

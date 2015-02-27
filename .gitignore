@@ -14,5 +14,7 @@ bin
 .classpath
 .settings
 opennlp_models/*
+text_samples/*
+!text_samples/.gitkeep
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

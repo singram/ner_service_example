@@ -10,11 +10,14 @@
     <form action="#" th:action="@{/entities}" th:object="${document}" method="post">
     	<p><textarea th:field="*{text}" ></textarea></p>
     	<ul>
-    		<li th:each="service : ${services}">
-				<input type="radio" th:field="*{serviceName}" th:value="${service}" />
-				<label th:for="${#ids.prev('serviceName')}" th:text="${service}">Some service</label>
+    		<li th:each="service : ${document.services}"> 		
+				<input type="radio" th:field="*{service}" th:value="${service}" th:checked="${true == service}" th:default="${true == service}"/>
+				<label th:for="${#ids.prev('service')}" th:text="${service}" >Some service</label>
 			</li>
 		</ul>
+		<div th:if="${hasSamples}">
+		<input type="checkbox" name="sample" th:value="${firstSample}" /> Use local sample text<br/>
+		</div>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>
    	<script type="text/javascript"

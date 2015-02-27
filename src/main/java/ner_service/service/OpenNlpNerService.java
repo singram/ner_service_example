@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 
 // https://opennlp.apache.org/documentation/1.5.3/manual/opennlp.html#tools.namefind.recognition.api
 
-@Service
+@Service("openNlpNerService")
 public class OpenNlpNerService implements NerService {
 
 	@SuppressWarnings("unused")

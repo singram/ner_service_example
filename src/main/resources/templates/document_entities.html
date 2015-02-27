@@ -5,8 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+	<h1 th:text="'Ner Service - ' + ${document.service}">Service used</h1>
 	<h1>Deidentified Text</h1>
 	<pre th:text="${document.deIdentifiedText}" />
+	<hr/>
+	<a th:if="${prevSample}" href="/entities?sample=prev" th:href="@{/entities(sample=${prevSample},service=${document.service})}">Previous</a>
+	<a th:if="${nextSample}" href="/entities?sample=next" th:href="@{/entities(sample=${nextSample},service=${document.service})}">Next</a>
 	<h1>Entities recognized</h1>
 	<table>
   <thead>
