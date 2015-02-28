@@ -63,7 +63,7 @@ public class OpenNlpNerService implements NerService {
 
 		return entities;
 	}
-	
+
 	private Set<String> nameMatches(String text) {
 		Set<String> names = new HashSet<String>();
 		NameFinderME nameFinder = new NameFinderME(personModel);
@@ -72,18 +72,20 @@ public class OpenNlpNerService implements NerService {
 		for (String sentence : convertToSentences(text)) {
 			tokens = convertToTokens(sentence);
 			matches = nameFinder.find(tokens);
-			List<String> s = Arrays.asList(Span.spansToStrings(matches, tokens));
+			List<String> s = Arrays
+					.asList(Span.spansToStrings(matches, tokens));
 			names.addAll(s);
 		}
 		nameFinder.clearAdaptiveData();
 		return names;
 	}
-	
+
 	private String[] convertToSentences(String text) {
-		SentenceDetectorME sentenceDetector = new SentenceDetectorME(sentenceModel);
+		SentenceDetectorME sentenceDetector = new SentenceDetectorME(
+				sentenceModel);
 		return sentenceDetector.sentDetect(text);
 	}
-	
+
 	private String[] convertToTokens(String sentence) {
 		Tokenizer tokenizer = new TokenizerME(tokenModel);
 		return tokenizer.tokenize(sentence);
@@ -95,7 +97,7 @@ public class OpenNlpNerService implements NerService {
 	}
 
 	public String deIdentify(String text) {
-		for(String match : nameMatches(text)) {
+		for (String match : nameMatches(text)) {
 			String replacement = StringUtils.repeat('X', match.length());
 			text = StringUtils.replace(text, match, replacement);
 		}

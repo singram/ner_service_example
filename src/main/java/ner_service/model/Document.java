@@ -17,14 +17,14 @@ public class Document {
 
 	@Autowired
 	private Collection<NerService> nerServices;
-	
+
 	@Autowired
 	@Qualifier("openNlpNerService")
 	private NerService defaultService;
-	
+
 	@Autowired
 	StringToNerService stringToNerService;
-	
+
 	private String text;
 	private HashMap<String, HashSet<String>> entities;
 	private NerService service;
@@ -51,7 +51,7 @@ public class Document {
 		}
 		return text;
 	}
-	
+
 	public void setText(String text) {
 		this.text = text;
 		this.entities = null;
@@ -64,7 +64,7 @@ public class Document {
 	public void setService(String name) {
 		setService(stringToNerService.convert(name));
 	}
-	
+
 	public NerService getService() {
 		if (this.service == null) {
 			setService(defaultService);

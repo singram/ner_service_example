@@ -46,6 +46,7 @@ cd ner_service_example
  - https://www.cs.cmu.edu/~rcwang/papers/emnlp-2005.pdf
  - http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
  - http://www.regexplanet.com/advanced/java/index.html
+ - http://www.bytemining.com/2010/10/lists-of-english-words/
 
 ## Spring resources I've found useful
 

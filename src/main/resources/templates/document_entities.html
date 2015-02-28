@@ -1,30 +1,30 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Getting Started: Handing Form Submission</title>
+<title>NER Service explorer</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.0.3/css/bootstrap.min.css" />
 </head>
 <body>
-<div class="container-fluid">
+	<div class="container-fluid">
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">NER Service Explorer</a>
-      <p class="navbar-text" th:text="${document.service}">The service in use</p>
-      <a th:if="${prevSample}" href="/entities?sample=prev"
-			th:href="@{/entities(sample=${prevSample},service=${document.service})}"
-			class="btn btn-default navbar-btn navbar-right">Previous</a>
-		<a th:if="${nextSample}"
-			href="/entities?sample=next"
-			th:href="@{/entities(sample=${nextSample},service=${document.service})}"
-			class="btn btn-primary navbar-btn navbar-right">Next</a>
-    </div>
-  </div>
-</nav>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">NER Service Explorer</a>
+					<p class="navbar-text" th:text="${document.service}">The
+						service in use</p>
+					<a th:if="${prevSample}" href="/entities?sample=prev"
+						th:href="@{/entities(sample=${prevSample},service=${document.service})}"
+						class="btn btn-default navbar-btn navbar-right">Previous</a> <a
+						th:if="${nextSample}" href="/entities?sample=next"
+						th:href="@{/entities(sample=${nextSample},service=${document.service})}"
+						class="btn btn-primary navbar-btn navbar-right">Next</a>
+				</div>
+			</div>
+		</nav>
 		<div class="row">
 			<div class="col-md-9">
 				<pre id="deidentified_text" th:utext="${document.deIdentifiedText}">Some <span
@@ -51,10 +51,11 @@
 				</table>
 			</div>
 		</div>
-	<script type="text/javascript" src="webjars/jquery/2.0.3/jquery.min.js"></script>
-	<script type="text/javascript"
-		src="webjars/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
+		<script type="text/javascript"
+			src="webjars/jquery/2.0.3/jquery.min.js"></script>
+		<script type="text/javascript"
+			src="webjars/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });

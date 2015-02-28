@@ -24,10 +24,10 @@ public class NERController {
 
 	@Autowired
 	private Document document;
-	
+
 	@SuppressWarnings("unused")
 	private Logger log = Logger.getLogger(NERController.class);
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String documentSumbissionForm(Model model) {
 		model.addAttribute("document", document);
@@ -45,10 +45,10 @@ public class NERController {
 
 	@RequestMapping(value = "/entities", method = RequestMethod.POST)
 	public String getNamedEntitiesPOST(@ModelAttribute Document document,
-			Model model, @RequestParam(required = false) final String sample) throws IOException {
+			Model model, @RequestParam(required = false) final String sample)
+			throws IOException {
 		model.addAttribute("document", document);
-		if (sample!=null)
-		{
+		if (sample != null) {
 			document.setText(SampleText.textFor(sample));
 			model.addAttribute("prevSample", SampleText.previousName(sample));
 			model.addAttribute("nextSample", SampleText.nextName(sample));
@@ -57,7 +57,9 @@ public class NERController {
 	}
 
 	@RequestMapping(value = "/entities", method = RequestMethod.GET)
-	public String getNamedEntitiesGET(Model model, @RequestParam final String sample, @RequestParam("service") NerService service) throws IOException {
+	public String getNamedEntitiesGET(Model model,
+			@RequestParam final String sample,
+			@RequestParam("service") NerService service) throws IOException {
 		document.setService(service);
 		document.setText(SampleText.textFor(sample));
 		model.addAttribute("document", document);
@@ -65,5 +67,5 @@ public class NERController {
 		model.addAttribute("nextSample", SampleText.nextName(sample));
 		return "document_entities";
 	}
-	
+
 }

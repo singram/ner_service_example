@@ -12,7 +12,7 @@ public final class StringToNerService implements Converter<String, NerService> {
 	@Autowired
 	private Collection<NerService> nerServices;
 
-    public NerService convert(String name) {
+	public NerService convert(String name) {
 		for (NerService service : nerServices) {
 			if (name.equals(service.toString())) {
 				return service;
@@ -20,5 +20,5 @@ public final class StringToNerService implements Converter<String, NerService> {
 		}
 		return null;
 	}
-    
+
 }

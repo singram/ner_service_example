@@ -1,42 +1,49 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Getting Started: Handing Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.0.3/css/bootstrap.min.css" />
+<title>NER Service explorer</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.0.3/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.0.3/css/bootstrap-theme.min.css" />
 </head>
-<body>
-<div class="container-fluid">
-
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">NER Service Explorer</a>
-    </div>
-  </div>
-</nav>
-	<h1>Document to de-identify</h1>
-    <form action="#" th:action="@{/entities}" th:object="${document}" method="post">
-    	<p><textarea th:field="*{text}" rows="5" ></textarea></p>
-    	<ul>
-    		<li th:each="service : ${document.services}"> 		
-				<input type="radio" th:field="*{service}" th:value="${service}" th:checked="${true == service}" th:default="${true == service}"/>
-				<label th:for="${#ids.prev('service')}" th:text="${service}" >Some service</label>
-			</li>
-		</ul>
-		<div th:if="${hasSamples}">
-		<input type="checkbox" name="sample" th:value="${firstSample}" /> Use local sample text<br/>
+<body role="document">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">NER Service Explorer</a>
+			</div>
 		</div>
-        <p>
-        <input type="submit" value="Submit" class="btn btn-primary"/> 
-        <input type="reset" value="Reset" class="btn"/>
-        </p>
-    </form>
-    </div>
-   	<script type="text/javascript"
-		src="webjars/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	</nav>
+	<div class="container-fluid theme-showcase" role="main">
+		<h1>Document to de-identify</h1>
+		<form action="#" th:action="@{/entities}" th:object="${document}"
+			method="post">
+			<p>
+				<textarea th:field="*{text}" rows="5"></textarea>
+			</p>
+			<ul>
+				<li th:each="service : ${document.services}"><input
+					type="radio" th:field="*{service}" th:value="${service}" />
+					<label th:for="${#ids.prev('service')}" th:text="${service}">Some
+						service</label></li>
+			</ul>
+			<div th:if="${hasSamples}">
+				<input type="checkbox" name="sample" th:value="${firstSample}" />
+				Use local sample text<br />
+			</div>
+			<p>
+				<input type="submit" value="Submit" class="btn btn-primary" /> <input
+					type="reset" value="Reset" class="btn" />
+			</p>
+		</form>
+	</div>
 	<script type="text/javascript"
-		src="webjars/jquery/2.0.3/jquery.min.js"></script>
+		src="webjars/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="webjars/jquery/2.0.3/jquery.min.js"></script>
 </body>
 </html>

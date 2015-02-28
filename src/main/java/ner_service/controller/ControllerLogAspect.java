@@ -13,10 +13,10 @@ public class ControllerLogAspect {
 
 	private Logger log = Logger.getLogger(ControllerLogAspect.class);
 
-	    @InitBinder
-	    private void initBinder(WebDataBinder binder,WebRequest webRequest) {
-	        //log the request and data here .
-	    	log.info(webRequest.toString());
-	    }
+	@InitBinder
+	private void initBinder(WebDataBinder binder, WebRequest webRequest) {
+		// log the request and data here .
+		log.info(webRequest.toString());
+	}
 
 }
