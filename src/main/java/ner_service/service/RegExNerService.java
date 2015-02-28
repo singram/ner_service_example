@@ -23,13 +23,13 @@ public class RegExNerService implements NerService {
 			{ "AGE", "AGE:\\s+(\\d{1,2})\\W" },
 			{ "AGE", "(\\d{1,2}) years? old" },
 			{ "AGE", "(\\d{1,2})-years?-old" },
-			{ "NAME", "Patient(?: name): +(\\w+, +\\w+(?: +\\w)?)" },
-			{ "NAME", "Author:\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)" },
-			{ "NAME", "by ?:? ?(\\w+, +\\w+(?:\\s+\\w)?)\\W" },
-			{ "NAME", "by ?:? ?(\\w+(?: \\w\\.)? \\w+)," },
-			{ "NAME", "(\\w+(?: \\w\\.)? \\w+)," },
-			{ "NAME", "\\W(Dr\\.\\s+\\w+)\\W" },
-			{ "NAME", "Completed by\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)\\W" },
+			{ "PERSON", "Patient(?: name): +(\\w+, +\\w+(?: +\\w)?)" },
+			{ "PERSON", "Author:\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)" },
+			{ "PERSON", "by ?:? ?(\\w+, +\\w+(?:\\s+\\w)?)\\W" },
+			{ "PERSON", "by ?:? ?(\\w+(?: \\w\\.)? \\w+)," },
+			{ "PERSON", "(\\w+(?: \\w\\.)? \\w+)," },
+			{ "PERSON", "\\W(Dr\\.\\s+\\w+)\\W" },
+			{ "PERSON", "Completed by\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)\\W" },
 			{ "DATE", "\\Won\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})\\W" },
 			{ "DATE", "\\W(\\d{1,2}/\\d{1,2}/\\d{4})\\W" },
 			{ "IDENTIFIER", "\\W(\\d{6,})\\W" },
@@ -87,11 +87,12 @@ public class RegExNerService implements NerService {
 
 	private String deIdentifyPart(String text, String type, String match) {
 		switch (type) {
-		case "NAME":
+		case "PERSON":
 			text = deIdentifyName(text, match);
 			break;
 		default:
 			String replacement = StringUtils.repeat('X', match.length());
+			replacement = "<span data-toggle=\"tooltip\" data-original-title=\""+match+"\">"+replacement+"</span>";
 			text = StringUtils.replace(text, match, replacement);
 		}
 		return text;

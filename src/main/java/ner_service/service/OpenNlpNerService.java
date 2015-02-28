@@ -58,7 +58,7 @@ public class OpenNlpNerService implements NerService {
 	public HashMap<String, HashSet<String>> getEntitiesFor(String text) {
 		HashMap<String, HashSet<String>> entities = new HashMap<String, HashSet<String>>();
 
-		String classification = "NAME";
+		String classification = "PERSON";
 		entities.put(classification, (HashSet<String>) nameMatches(text));
 
 		return entities;

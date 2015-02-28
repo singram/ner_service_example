@@ -30,18 +30,15 @@ public abstract class StanfordNlpNerService implements NerService {
 		for (List<CoreLabel> coreLabels : classify) {
 			for (CoreLabel coreLabel : coreLabels) {
 				String word = coreLabel.word();
-				String answer = coreLabel
+				String classification = coreLabel
 						.get(CoreAnnotations.AnswerAnnotation.class);
-				if (!"O".equals(answer)) {
-					HashSet<String> existingClassification = entities.get(word);
-					if (existingClassification != null) {
-						existingClassification.add(answer);
-						entities.put(word, existingClassification);
-					} else {
-						HashSet<String> newSet = new HashSet<String>();
-						newSet.add(answer);
-						entities.put(word, newSet);
+				if (!"O".equals(classification)) {
+					HashSet<String> words = entities.get(classification);
+					if (words == null) {
+						words = new HashSet<String>();
 					}
+					words.add(word);
+					entities.put(classification, words);
 				}
 			}
 		}
