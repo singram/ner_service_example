@@ -6,9 +6,19 @@
 	<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.0.3/css/bootstrap.min.css" />
 </head>
 <body>
+<div class="container-fluid">
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">NER Service Explorer</a>
+    </div>
+  </div>
+</nav>
 	<h1>Document to de-identify</h1>
     <form action="#" th:action="@{/entities}" th:object="${document}" method="post">
-    	<p><textarea th:field="*{text}" ></textarea></p>
+    	<p><textarea th:field="*{text}" rows="5" ></textarea></p>
     	<ul>
     		<li th:each="service : ${document.services}"> 		
 				<input type="radio" th:field="*{service}" th:value="${service}" th:checked="${true == service}" th:default="${true == service}"/>
@@ -18,8 +28,12 @@
 		<div th:if="${hasSamples}">
 		<input type="checkbox" name="sample" th:value="${firstSample}" /> Use local sample text<br/>
 		</div>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        <p>
+        <input type="submit" value="Submit" class="btn btn-primary"/> 
+        <input type="reset" value="Reset" class="btn"/>
+        </p>
     </form>
+    </div>
    	<script type="text/javascript"
 		src="webjars/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 	<script type="text/javascript"

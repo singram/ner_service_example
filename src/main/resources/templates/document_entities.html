@@ -1,30 +1,64 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Handing Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Getting Started: Handing Form Submission</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.0.3/css/bootstrap.min.css" />
 </head>
 <body>
-	<h1 th:text="'Ner Service - ' + ${document.service}">Service used</h1>
-	<h1>Deidentified Text</h1>
-	<pre th:text="${document.deIdentifiedText}" />
-	<hr/>
-	<a th:if="${prevSample}" href="/entities?sample=prev" th:href="@{/entities(sample=${prevSample},service=${document.service})}">Previous</a>
-	<a th:if="${nextSample}" href="/entities?sample=next" th:href="@{/entities(sample=${nextSample},service=${document.service})}">Next</a>
-	<h1>Entities recognized</h1>
-	<table>
-  <thead>
-    <tr>
-      <th>Entity</th>
-      <th>Categories</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="entity : ${document.entities}">
-      <td th:text="${entity.key}">Some word</td>
-      <td th:text="${entity.value}">[Something]</td>
-    </tr>
-  </tbody>
-</table>
+<div class="container-fluid">
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">NER Service Explorer</a>
+      <p class="navbar-text" th:text="${document.service}">The service in use</p>
+      <a th:if="${prevSample}" href="/entities?sample=prev"
+			th:href="@{/entities(sample=${prevSample},service=${document.service})}"
+			class="btn btn-default navbar-btn navbar-right">Previous</a>
+		<a th:if="${nextSample}"
+			href="/entities?sample=next"
+			th:href="@{/entities(sample=${nextSample},service=${document.service})}"
+			class="btn btn-primary navbar-btn navbar-right">Next</a>
+    </div>
+  </div>
+</nav>
+		<div class="row">
+			<div class="col-md-9">
+				<pre id="deidentified_text" th:utext="${document.deIdentifiedText}">Some <span
+						data-toggle="tooltip" data-original-title="deidentified">XXXXXX</span> text</pre>
+			</div>
+			<div class="col-md-3">
+				<table class="table table-striped table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>Classification</th>
+							<th>Entities</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="entity : ${document.entities}">
+							<td th:text="${entity.key}">Some word</td>
+							<td>
+								<ul th:each="word : ${entity.value}" class="list-unstyled">
+									<li th:text="${word}">Some text</li>
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<script type="text/javascript" src="webjars/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+	</script>
+	</div>
 </body>
 </html>
