@@ -54,6 +54,7 @@ public class Document {
 	
 	public void setText(String text) {
 		this.text = text;
+		this.entities = null;
 	}
 
 	public void setService(NerService service) {
