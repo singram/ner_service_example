@@ -7,10 +7,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegExNerService implements NerService {
+
+	private Logger log = Logger.getLogger(RegExNerService.class);
 
 	private static final Map<Pattern, String> regExRules;
 
@@ -19,25 +22,22 @@ public class RegExNerService implements NerService {
 	// http://www.regexplanet.com/advanced/java/index.html
 	// http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
 	
-	private static String NAME_FORMAT1 = "\\b(\\w+(?: \\w\\.?)? \\w+)\\b";  // John L. Smith
-	private static String NAME_FORMAT2 = "\\b(\\w+, *\\w+(?: +\\w\\.?)?)\\b"; // Smith, John L
+	private static String NAME_FORMAT1 = "\\b(\\w+(?:\\p{Blank}\\w\\.?)?\\p{Blank}\\w+)\\b";  // John L. Smith
+	private static String NAME_FORMAT2 = "\\b(\\w+,\\p{Blank}*\\w+(?:\\p{Blank}+\\w\\.?)?)\\b"; // Smith, John L
+	private static String DATE_FORMAT = "\\b(\\d{1,2}(?:/|-)\\d{1,2}(?:/|-)\\d{2,4})\\b";
 	
 	private static String rules[][] = {
-			{ "DATE", "DOB:\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})" },
-			{ "DATE", "\\Won\\s+(\\d{1,2}/\\d{1,2}/\\d{2,4})\\W" },
-			{ "DATE", "\\W(\\d{1,2}/\\d{1,2}/\\d{2,4})\\W" },
+			{ "DATE",  DATE_FORMAT },
+			{ "DATE", "\\W(\\d{1,2}(?:/|-| )(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(?:/|-| )\\d{2,4})\\W" },
 			{ "AGE", "AGE:\\s+(\\d{1,2})\\W" },
 			{ "AGE", "(\\d{1,2}) years? old" },
 			{ "AGE", "(\\d{1,2})-years?-old" },
-//			{ "PERSON1", "Patient(?: name): +(\\w+, +\\w+(?: +\\w)?)" },
-//			{ "PERSON2", "Author:\\s+(\\w+,\\s+\\w+(?:\\s+\\w)?)" },
-//			{ "PERSON3", "by ?:? ?(\\w+, +\\w+(?:\\s+\\w)?)\\W" },
-//			{ "PERSON4", "by ?:? ?(\\w+(?: \\w\\.)? \\w+)," },
-			
-			{ "PERSON", "(?:name|physician|by|patient|author|md) *: *" + NAME_FORMAT1 },
-			{ "PERSON", "(?:name|physician|by|patient|author|md) *: *" + NAME_FORMAT2 },
-			{ "PERSON", NAME_FORMAT1 + " *, *(?:LPN|CNM)"},
-			{ "PERSON", NAME_FORMAT2 + " *, *(?:LPN|CNM)"},
+			{ "AGE", "(\\d{1,2}) yrs?" },
+			{ "PERSON", "(?:name|physician|by|patient|author|md|technician|pathologist) *: *" + NAME_FORMAT1 },
+			{ "PERSON", "(?:name|physician|by|patient|author|md|technician|pathologist) *: *" + NAME_FORMAT2 },
+			{ "PERSON", NAME_FORMAT1 + " *(?:, *)?(?:LPN|CNM|MD|\\(MD\\)|M\\.D\\.)"},
+			{ "PERSON", NAME_FORMAT2 + " *(?:, *)?(?:LPN|CNM|MD|\\(MD\\)|M\\.D\\.)"},
+			{ "PERSON", "(?:case attendee)(?:\\p{Blank}+" + NAME_FORMAT2 + ")+"},
 			{ "PERSON", "(?:completed|requested) by +" + NAME_FORMAT2 },
 			
 			{ "PERSON", "\\b(Dr\\. +\\w+)\\b" },
@@ -49,10 +49,10 @@ public class RegExNerService implements NerService {
 			{ "LOCATION", "Pharmacy Name & Phone: (.*)$" } };
 	
 	private static String lineRules[][] = {
-//		{ "PERSON", "^" + NAME_FORMAT1 + "$"},
 		{ "PERSON", "^" + NAME_FORMAT2 + "$"},
 		{ "IDENTIFIER", "^ *Case number *: *(\\S+)\\s" },
-		{ "IDENTIFIER", "^ *ROOM # *: *(\\S+)\\s" }
+		{ "LOCATION", "^ *ROOM # *: *(\\S+)\\s" },
+		{ "LOCATION", "^ *(?:location|department) *: *(\\S+)\\s" }
 	};
 
 	static {
@@ -69,6 +69,7 @@ public class RegExNerService implements NerService {
 		HashMap<String, HashSet<String>> entities = new HashMap<String, HashSet<String>>();
 		for (Map.Entry<Pattern, String> entry : regExRules.entrySet()) {
 			String classification = entry.getValue();
+			log.debug(entry.getKey().pattern());
 			Matcher m = entry.getKey().matcher(text);
 			HashSet<String> existingClassification = entities
 					.get(classification);

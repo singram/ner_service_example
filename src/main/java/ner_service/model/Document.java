@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import ner_service.service.NerService;
-import ner_service.service.StringToNerService;
+import ner_service.service.StringToNerServiceConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,7 +23,7 @@ public class Document {
 	private NerService defaultService;
 
 	@Autowired
-	StringToNerService stringToNerService;
+	StringToNerServiceConverter stringToNerService;
 
 	private String text;
 	private HashMap<String, HashSet<String>> entities;
@@ -48,6 +48,7 @@ public class Document {
 		String text = null;
 		if (this.text != null) {
 			text = this.text.replaceAll("bmk", "");
+			text = this.text.replaceAll("Courier New;Arial;Symbol;;;", "");
 		}
 		return text;
 	}

@@ -46,6 +46,7 @@ public abstract class StanfordNlpNerService implements NerService {
 	}
 
 	public String deIdentify(String text) {
+		// FIXME: Yet to implement deidentification of text
 		return text;
 	}
 

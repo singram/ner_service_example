@@ -7,7 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class StringToNerService implements Converter<String, NerService> {
+public final class StringToNerServiceConverter implements Converter<String, NerService> {
 
 	@Autowired
 	private Collection<NerService> nerServices;

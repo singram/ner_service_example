@@ -31,10 +31,10 @@ cd ner_service_example
  Optionally put your sample documents as individual files in the ./sample_text directory in the root of the project.  The service will pick up the presence of samples and offer you the option to navigate through them easily so that you can visualize and trial the quality of each approach.
 
 # TODO
- - Cleanup interface
  - Correct controller logging
+ - Cleanup interface so that a single POST method can handle all navigation needs
  - Train NER engines on document corpus
- - Add dictionaries to reduce false positive occurance
+ - Add dictionaries to reduce false positive occurance (not necessary at this point)
  - Perform quantative study of results
 
 ## References
