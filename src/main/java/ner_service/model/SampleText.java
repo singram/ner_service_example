@@ -39,10 +39,8 @@ public class SampleText {
 		File dir = new File("./text_samples");
 		File[] filesList = dir.listFiles();
 		for (File file : filesList) {
-			if (file.isFile()) {
-				if (!file.getName().startsWith(".")) {
-					files.add(file.getName());
-				}
+			if (file.isFile() && !file.getName().startsWith(".")) {
+				files.add(file.getName());
 			}
 		}
 		Collections.sort(files);

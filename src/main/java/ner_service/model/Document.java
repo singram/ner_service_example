@@ -7,6 +7,7 @@ import java.util.HashSet;
 import ner_service.service.NerService;
 import ner_service.service.StringToNerServiceConverter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -45,12 +46,12 @@ public class Document {
 	}
 
 	private String cleanText() {
-		String text = null;
-		if (this.text != null) {
-			text = this.text.replaceAll("bmk", "");
-			text = this.text.replaceAll("Courier New;Arial;Symbol;;;", "");
+		String cleanedText = this.text;
+		if (!StringUtils.isBlank(cleanedText)) {
+			cleanedText = cleanedText.replaceAll("bmk", "");
+			cleanedText = cleanedText.replaceAll("Courier New;Arial;Symbol;;;", "");
 		}
-		return text;
+		return cleanedText;
 	}
 
 	public void setText(String text) {

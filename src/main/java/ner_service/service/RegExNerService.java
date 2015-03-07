@@ -109,19 +109,25 @@ public class RegExNerService implements NerService {
 //			text = deIdentifyName(text, match);
 //			break;
 		default:
-			String replacement = StringUtils.repeat('X', match.length());
-			replacement = "<span data-toggle=\"tooltip\" data-original-title=\""
-					+ match + "\">" + replacement + "</span>";
-			//text = StringUtils.replace(text, match, replacement);
-			text = text.replaceAll("(?i)\\b" + match + "\\b",
-					replacement);
+			text = deIdentifyGeneral(text, match);
+			break;
 		}
 		return text;
 	}
+	
+	private String deIdentifyGeneral(String text, String match) {
+		String replacement = StringUtils.repeat('X', match.length());
+		replacement = "<span data-toggle=\"tooltip\" data-original-title=\""
+				+ match + "\">" + replacement + "</span>";
+		//text = StringUtils.replace(text, match, replacement);
+		text = text.replaceAll("(?i)\\b" + match + "\\b",
+				replacement);
+		return text;
+	}
 
-	private String deIdentifyName(String text, String name) {
+	private String deIdentifyName(String text, String name_match) {
 		String replacement;
-		for (String namePart : StringUtils.split(name)) {
+		for (String namePart : StringUtils.split(name_match)) {
 			namePart = StringUtils.remove(namePart, ",");
 			namePart = StringUtils.remove(namePart, ".");
 			if (namePart.length() > 1) {

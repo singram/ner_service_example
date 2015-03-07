@@ -50,6 +50,7 @@ public class OpenNlpNerService implements NerService {
 				try {
 					modelIn.close();
 				} catch (IOException e) {
+					System.out.println("ERROR initializing openNLP models" + e.getMessage());
 				}
 			}
 		}
