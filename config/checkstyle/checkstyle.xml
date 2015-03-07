@@ -9,31 +9,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
 
 <module name="Checker">
 
-
-  <module name="RegexpSingleline">
-    <!-- Requires a copyright notice in each file.
-      Code intended to be open-sourced may have a multi-line copyright
-      notice, so that this required text appears on the second line:
-      <pre>
-        /*
-         * Copyright 2008 Foo Inc.
-         *
-         * (details of open-source license...)
-      </pre>
-    -->
-    <property name="format"
-        value="^(//| \*) Copyright (\([cC]\) )?[\d]{4}(\-[\d]{4})? (Foo Inc\.).*$" />
-    <property name="minimum" value="1" />
-    <property name="maximum" value="10" />
-    <property name="message" value="Copyright is missing or malformed." />
-    <property name="severity" value="error" />
-  </module>
-
-  <module name="FileTabCharacter">
-    <!-- Checks that there are no tab characters in the file.
-    -->
-  </module>
-
   <module name="NewlineAtEndOfFile"/>
 
   <module name="RegexpSingleline">
@@ -69,38 +44,10 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <!-- Checks for out of order import statements. -->
 
       <property name="severity" value="warning"/>
-      <property name="groups" value="com.google,android,junit,net,org,java,javax"/>
+	  <property name="ordered" value="true"/>
       <!-- This ensures that static imports go first. -->
       <property name="option" value="top"/>
       <property name="tokens" value="STATIC_IMPORT, IMPORT"/>
-    </module>
-
-    <!--
-
-    JAVADOC CHECKS
-
-    -->
-
-    <!-- Checks for Javadoc comments.                     -->
-    <!-- See http://checkstyle.sf.net/config_javadoc.html -->
-    <module name="JavadocMethod">
-      <property name="scope" value="protected"/>
-      <property name="severity" value="warning"/>
-      <property name="allowMissingJavadoc" value="true"/>
-      <property name="allowMissingParamTags" value="true"/>
-      <property name="allowMissingReturnTag" value="true"/>
-      <property name="allowMissingThrowsTags" value="true"/>
-      <property name="allowThrowsTagsForSubclasses" value="true"/>
-      <property name="allowUndeclaredRTE" value="true"/>
-    </module>
-
-    <module name="JavadocType">
-      <property name="scope" value="protected"/>
-      <property name="severity" value="error"/>
-    </module>
-
-    <module name="JavadocStyle">
-      <property name="severity" value="warning"/>
     </module>
 
     <!--
@@ -117,7 +64,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <!-- Here the default checkstyle rule restricts package name parts to
         seven characters, this is not in line with common practice.
       -->
-      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]{1,})*$"/>
+      <property name="format" value="^[a-z]+([\._][a-z][a-z0-9]{1,})*$"/>
       <property name="severity" value="warning"/>
     </module>
 
@@ -199,7 +146,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
 
     <module name="LineLength">
       <!-- Checks if a line is too long. -->
-      <property name="max" value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.max}" default="100"/>
+      <property name="max" value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.max}" default="120"/>
       <property name="severity" value="error"/>
 
       <!--
@@ -210,7 +157,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
 
       <property name="ignorePattern"
           value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.ignorePattern}"
-          default="^(package .*;\s*)|(import .*;\s*)|( *\* *https?://.*)$"/>
+          default="^(package .*;\s*)|(import .*;\s*)|( *\* *https?://.*)|(\s*//.*)$"/>
     </module>
 
     <module name="LeftCurly">

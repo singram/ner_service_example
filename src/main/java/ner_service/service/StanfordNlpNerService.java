@@ -16,8 +16,8 @@ public abstract class StanfordNlpNerService implements NerService {
 	private final CRFClassifier<CoreLabel> classifier;
 
 	public StanfordNlpNerService(String serializedClassifier) {
-		this.classifier = CRFClassifier.getJarClassifier(serializedClassifier,
-				null);
+		this.classifier = CRFClassifier.getJarClassifier(
+				"/edu/stanford/nlp/models/ner/" + serializedClassifier, null);
 	}
 
 	public synchronized List<List<CoreLabel>> classify(String text) {
@@ -46,7 +46,7 @@ public abstract class StanfordNlpNerService implements NerService {
 	}
 
 	public String deIdentify(String text) {
-		// FIXME: Yet to implement deidentification of text
+		// TODO(ingrams): Yet to implement deidentification of text
 		return text;
 	}
 

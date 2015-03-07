@@ -21,39 +21,49 @@ public class RegExNerService implements NerService {
 
 	// http://www.regexplanet.com/advanced/java/index.html
 	// http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
-	
-	private static String NAME_FORMAT1 = "\\b(\\w+(?:\\p{Blank}\\w\\.?)?\\p{Blank}\\w+)\\b";  // John L. Smith
-	private static String NAME_FORMAT2 = "\\b(\\w+,\\p{Blank}*\\w+(?:\\p{Blank}+\\w\\.?)?)\\b"; // Smith, John L
-	private static String DATE_FORMAT = "\\b(\\d{1,2}(?:/|-)\\d{1,2}(?:/|-)\\d{2,4})\\b";
-	
-	private static String rules[][] = {
-			{ "DATE",  DATE_FORMAT },
-			{ "DATE", "\\W(\\d{1,2}(?:/|-| )(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(?:/|-| )\\d{2,4})\\W" },
+
+	// John L. Smith
+	private static final String NAME_FORMAT1 = "\\b(\\w+(?:\\p{Blank}\\w\\.?)?\\p{Blank}\\w+)\\b"; 
+
+	// Smith, John L
+	private static final  String NAME_FORMAT2 = "\\b(\\w+,\\p{Blank}*\\w+(?:\\p{Blank}+\\w\\.?)?)\\b"; 
+
+	private static final  String DATE_FORMAT = "\\b(\\d{1,2}(?:/|-)\\d{1,2}(?:/|-)\\d{2,4})\\b";
+
+	private static final String rules[][] = {
+			{ "DATE", DATE_FORMAT },
+			{ "DATE", "\\W(\\d{1,2}(?:/|-| )"
+					+ "(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)"
+					+ "(?:/|-| )\\d{2,4})\\W" },
 			{ "AGE", "AGE:\\s+(\\d{1,2})\\W" },
 			{ "AGE", "(\\d{1,2}) years? old" },
 			{ "AGE", "(\\d{1,2})-years?-old" },
 			{ "AGE", "(\\d{1,2}) yrs?" },
-			{ "PERSON", "(?:name|physician|by|patient|author|md|technician|pathologist) *: *" + NAME_FORMAT1 },
-			{ "PERSON", "(?:name|physician|by|patient|author|md|technician|pathologist) *: *" + NAME_FORMAT2 },
-			{ "PERSON", NAME_FORMAT1 + " *(?:, *)?(?:LPN|CNM|MD|\\(MD\\)|M\\.D\\.)"},
-			{ "PERSON", NAME_FORMAT2 + " *(?:, *)?(?:LPN|CNM|MD|\\(MD\\)|M\\.D\\.)"},
-			{ "PERSON", "(?:case attendee)(?:\\p{Blank}+" + NAME_FORMAT2 + ")+"},
+			{ "PERSON",
+					"(?:name|physician|by|patient|author|md|technician|pathologist) *: *"
+							+ NAME_FORMAT1 },
+			{ "PERSON",
+					"(?:name|physician|by|patient|author|md|technician|pathologist) *: *"
+							+ NAME_FORMAT2 },
+			{ "PERSON",
+					NAME_FORMAT1 + " *(?:, *)?(?:LPN|CNM|MD|\\(MD\\)|M\\.D\\.)" },
+			{ "PERSON",
+					NAME_FORMAT2 + " *(?:, *)?(?:LPN|CNM|MD|\\(MD\\)|M\\.D\\.)" },
+			{ "PERSON", "(?:case attendee)(?:\\p{Blank}+" + NAME_FORMAT2 + ")+" },
 			{ "PERSON", "(?:completed|requested) by +" + NAME_FORMAT2 },
-			
+
 			{ "PERSON", "\\b(Dr\\. +\\w+)\\b" },
 			{ "IDENTIFIER", "\\W(\\d{6,})\\W" },
 			{ "PHONE", "(\\d{3}-\\d{3}-\\d{4})" },
-			{
-					"RELATION",
-					"\\b(father|mother|son|daughter|cousin|nephew|girlfriend|boyfriend|spouce|wife|husband|brother|brothers|sister|sisters)\\b" },
+			{ "RELATION", "\\b(father|mother|spouce|wife|husband|son|daughter|"
+				+ "cousin|nephew|girlfriend|boyfriend|brother|brothers|sister|sisters)\\b" },
 			{ "LOCATION", "Pharmacy Name & Phone: (.*)$" } };
-	
-	private static String lineRules[][] = {
-		{ "PERSON", "^" + NAME_FORMAT2 + "$"},
-		{ "IDENTIFIER", "^ *Case number *: *(\\S+)\\s" },
-		{ "LOCATION", "^ *ROOM # *: *(\\S+)\\s" },
-		{ "LOCATION", "^ *(?:location|department) *: *(\\S+)\\s" }
-	};
+
+	private static final String lineRules[][] = {
+			{ "PERSON", "^" + NAME_FORMAT2 + "$" },
+			{ "IDENTIFIER", "^ *Case number *: *(\\S+)\\s" },
+			{ "LOCATION", "^ *ROOM # *: *(\\S+)\\s" },
+			{ "LOCATION", "^ *(?:location|department) *: *(\\S+)\\s" } };
 
 	static {
 		regExRules = new HashMap<Pattern, String>();
@@ -61,7 +71,9 @@ public class RegExNerService implements NerService {
 			regExRules.put(Pattern.compile(rule[1], defaultFlags), rule[0]);
 		}
 		for (String[] rule : lineRules) {
-			regExRules.put(Pattern.compile(rule[1], defaultFlags|Pattern.MULTILINE), rule[0]);
+			regExRules.put(
+					Pattern.compile(rule[1], defaultFlags | Pattern.MULTILINE),
+					rule[0]);
 		}
 	}
 
@@ -105,29 +117,28 @@ public class RegExNerService implements NerService {
 	private String deIdentifyPart(String text, String classification,
 			String match) {
 		switch (classification) {
-//		case "PERSON":
-//			text = deIdentifyName(text, match);
-//			break;
+		// case "PERSON":
+		// text = deIdentifyName(text, match);
+		// break;
 		default:
 			text = deIdentifyGeneral(text, match);
 			break;
 		}
 		return text;
 	}
-	
+
 	private String deIdentifyGeneral(String text, String match) {
 		String replacement = StringUtils.repeat('X', match.length());
 		replacement = "<span data-toggle=\"tooltip\" data-original-title=\""
 				+ match + "\">" + replacement + "</span>";
-		//text = StringUtils.replace(text, match, replacement);
-		text = text.replaceAll("(?i)\\b" + match + "\\b",
-				replacement);
+		// text = StringUtils.replace(text, match, replacement);
+		text = text.replaceAll("(?i)\\b" + match + "\\b", replacement);
 		return text;
 	}
 
-	private String deIdentifyName(String text, String name_match) {
+	private String deIdentifyName(String text, String nameMatch) {
 		String replacement;
-		for (String namePart : StringUtils.split(name_match)) {
+		for (String namePart : StringUtils.split(nameMatch)) {
 			namePart = StringUtils.remove(namePart, ",");
 			namePart = StringUtils.remove(namePart, ".");
 			if (namePart.length() > 1) {

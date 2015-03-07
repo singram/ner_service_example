@@ -37,8 +37,8 @@ public class NERController {
 	}
 
 	@RequestMapping(value = "/entities.json", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody
-	Document getNamedEntities(@RequestBody String input) {
+	@ResponseBody
+	public Document getNamedEntities(@RequestBody String input) {
 		Document document = new Document(input);
 		return document;
 	}
